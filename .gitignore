@@ -183,3 +183,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,rider,visualstudiocode,windows,macos,linux
+
+# ReSharper
+*.DotSettings.user
+
+ChemDuel.Core.Test/test_reactions.rdb
