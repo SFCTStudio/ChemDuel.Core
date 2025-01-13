@@ -1,3 +1,4 @@
+using ChemDuel.Core.Utils;
 using MessagePack;
 
 namespace ChemDuel.Core.Reactions;
@@ -8,11 +9,11 @@ namespace ChemDuel.Core.Reactions;
 [MessagePackObject]
 public struct Reaction()
 {
-    [Key(0)] public string[] Reactants;
-    [Key(1)] public string[] Products;
-    [Key(2)] public string Condition;
-    [Key(3)] public bool Reversible;
-    [Key(4)] public Dictionary<string, string> Attributes;
+    [Key(0)] public readonly string[] Reactants;
+    [Key(1)] public readonly string[] Products;
+    [Key(2)] public readonly string Condition;
+    [Key(3)] public readonly bool Reversible;
+    [Key(4)] public readonly Dictionary<string, string> Attributes;
 
     public Reaction(string[] reactants, string[] products, string condition, bool reversible,
         Dictionary<string, string> attributes) : this()
@@ -24,25 +25,15 @@ public struct Reaction()
         Attributes = attributes;
     }
 
-    private int _sort(string a, string b)
-    {
-        if (a.Length != b.Length)
-        {
-            return a.Length - b.Length;
-        }
-
-        return string.Compare(a, b, StringComparison.Ordinal);
-    }
-
     public void Sort()
     {
-        Array.Sort(Reactants, _sort);
-        Array.Sort(Products, _sort);
+        Array.Sort(Reactants, SortUtils.SortByLength);
+        Array.Sort(Products, SortUtils.SortByLength);
     }
 
     public override string ToString()
     {
-        return $"{string.Join(" + ", Reactants)} -> {string.Join(" + ", Products)}";
+        var arrow = Reversible ? "<=>" : "=>";
+        return $"{string.Join(" + ", Reactants)} {arrow} {string.Join(" + ", Products)}";
     }
-
 };

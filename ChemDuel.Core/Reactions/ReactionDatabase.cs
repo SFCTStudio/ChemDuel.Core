@@ -1,3 +1,4 @@
+using ChemDuel.Core.Utils;
 using MessagePack;
 
 namespace ChemDuel.Core.Reactions;
@@ -8,10 +9,10 @@ namespace ChemDuel.Core.Reactions;
 [MessagePackObject(true)]
 public struct ReactionDatabaseFile(string name, string version, string description, Reaction[] reactions)
 {
-    public string Name = name;
-    public string Version = version;
-    public string Description = description;
-    public Reaction[] Reactions = reactions;
+    public readonly string Name = name;
+    public readonly string Version = version;
+    public readonly string Description = description;
+    public readonly Reaction[] Reactions = reactions;
 };
 
 /// <summary>
@@ -19,10 +20,10 @@ public struct ReactionDatabaseFile(string name, string version, string descripti
 /// </summary>
 public class ReactionDatabase
 {
-    public string Description ;
-    public string Name ;
-    public Reaction[] Reactions ;
-    public string Version ;
+    public readonly string Description;
+    public readonly string Name;
+    public readonly Reaction[] Reactions;
+    public readonly string Version;
 
     public ReactionDatabase(string name, string version, string description, Reaction[] reactions)
     {
@@ -30,8 +31,21 @@ public class ReactionDatabase
         Version = version;
         Description = description;
         Reactions = reactions;
-        
+
         Array.ForEach(Reactions, r => r.Sort());
+    }
+
+    /// <summary>
+    /// 反应数据库的哈希值。
+    /// </summary>
+    /// 计算规则：
+    /// 先对所有反应按长度排序，然后将所有反应的字符串连接起来，最后计算 MD5 哈希值。
+    /// <returns>哈希值</returns>
+    public string Hash()
+    {
+        var reactions = Reactions.Select(r => r.ToString()).ToArray();
+        Array.Sort(reactions, SortUtils.SortByLength);
+        return Md5Utils.Hash(string.Join("", reactions));
     }
 
     /// <summary>
