@@ -20,10 +20,10 @@ public struct ReactionDatabaseFile(string name, string version, string descripti
 /// </summary>
 public class ReactionDatabase
 {
-    public readonly string Description;
-    public readonly string Name;
-    public readonly Reaction[] Reactions;
-    public readonly string Version;
+    public string Description;
+    public string Name;
+    public Reaction[] Reactions;
+    public string Version;
 
     public ReactionDatabase(string name, string version, string description, Reaction[] reactions)
     {

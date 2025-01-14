@@ -9,11 +9,11 @@ namespace ChemDuel.Core.Reactions;
 [MessagePackObject]
 public struct Reaction()
 {
-    [Key(0)] public readonly string[] Reactants;
-    [Key(1)] public readonly string[] Products;
-    [Key(2)] public readonly string Condition;
-    [Key(3)] public readonly bool Reversible;
-    [Key(4)] public readonly Dictionary<string, string> Attributes;
+    [Key(0)] public string[] Reactants;
+    [Key(1)] public string[] Products;
+    [Key(2)] public string Condition;
+    [Key(3)] public bool Reversible;
+    [Key(4)] public Dictionary<string, string> Attributes;
 
     public Reaction(string[] reactants, string[] products, string condition, bool reversible,
         Dictionary<string, string> attributes) : this()
